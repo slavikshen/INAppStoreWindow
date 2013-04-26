@@ -57,6 +57,7 @@
  */
 @property (nonatomic) BOOL centerFullScreenButton;
 @property (nonatomic) BOOL centerTrafficLightButtons;
+@property (nonatomic) BOOL centerTitle;
 
 /**
  Whether the traffic light buttons are vertical

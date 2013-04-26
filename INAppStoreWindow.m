@@ -298,6 +298,7 @@ static inline CGGradientRef createGradientWithColors(NSColor *startingColor, NSC
     NSSize titleSize = [window.title sizeWithAttributes:titleTextStyles];
     NSRect titleTextRect;
     titleTextRect.size = titleSize;
+    CGRect bounds = self.bounds;
     
     NSButton *docIconButton = [window standardWindowButton:NSWindowDocumentIconButton];
     NSButton *versionsButton = [window standardWindowButton:NSWindowDocumentVersionsButton];
@@ -316,11 +317,20 @@ static inline CGGradientRef createGradientWithColors(NSColor *startingColor, NSC
         }
     }
     else {
-        titleTextRect.origin.x = NSMidX(self.bounds) - titleSize.width/2;
+        titleTextRect.origin.x = NSMidX(bounds) - titleSize.width/2;
     }
-    titleTextRect.origin.y = NSMaxY(self.bounds) - titleSize.height - 2.0;
+
+    if( window.centerTitle ) {
+        titleTextRect.origin.y = bounds.origin.y+ (bounds.size.height-titleSize.height)/2;
+    } else {
+        titleTextRect.origin.y = NSMaxY(bounds) - titleSize.height - 2.0;
+    }
     
     if (frame) {
+        titleTextRect.origin.x = floorf(titleTextRect.origin.x);
+        titleTextRect.origin.y = floorf(titleTextRect.origin.y);
+        titleTextRect.size.width = ceilf(titleTextRect.size.width);
+        titleTextRect.size.height = ceilf(titleTextRect.size.height);
         *frame = titleTextRect;
     }
     if (attributes) {
